@@ -86,5 +86,3 @@ python manage.py test
 - The map uses Leaflet.js and OpenStreetMap tiles (no API key required).
 - For production, use HTTPS and secure your secret key and database.
 
-## License
-SEF 
