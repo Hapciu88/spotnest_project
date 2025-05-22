@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Property Viewing Requests</h2>
+    {% if requests %}
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Tenant</th>
+                    <th>Status</th>
+                    <th>Requested At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for req in requests %}
+                <tr>
+                    <td><a href="{% url 'module_property:property_detail' req.property.id %}">{{ req.property.title }}</a></td>
+                    <td>{{ req.tenant.username }}</td>
+                    <td>
+                        {% if req.status == 'pending' %}
+                            <span class="badge bg-warning text-dark">Pending</span>
+                        {% elif req.status == 'approved' %}
+                            <span class="badge bg-success">Approved</span>
+                        {% elif req.status == 'declined' %}
+                            <span class="badge bg-danger">Declined</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ req.created_at|date:"M d, Y H:i" }}</td>
+                    <td>
+                        {% if req.status == 'pending' %}
+                        <form method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="request_id" value="{{ req.id }}">
+                            <button name="action" value="approve" class="btn btn-success btn-sm">Approve</button>
+                            <button name="action" value="reject" class="btn btn-danger btn-sm">Reject</button>
+                        </form>
+                        {% else %}
+                            <span class="text-muted">No actions</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No requests found.</p>
+    {% endif %}
+</div>
+{% endblock %} 

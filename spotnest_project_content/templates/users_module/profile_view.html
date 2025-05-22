@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>My Profile</h2>
+    <div class="row">
+        <div class="col-md-4">
+            {% if user_obj.profile_image %}
+                <img src="{{ user_obj.profile_image.url }}" class="img-fluid rounded-circle mb-3" style="max-width: 200px;" alt="Profile image">
+            {% else %}
+                <img src="https://via.placeholder.com/200?text=No+Image" class="img-fluid rounded-circle mb-3" alt="No image">
+            {% endif %}
+        </div>
+        <div class="col-md-8">
+            <p><strong>Username:</strong> {{ user_obj.username }}</p>
+            <p><strong>Age:</strong> {{ user_obj.age }}</p>
+            <p><strong>Orientation:</strong> {{ user_obj.orientation }}</p>
+            <p><strong>Income:</strong> {% if user_obj.income %}${{ user_obj.income }}{% endif %}</p>
+            <p><strong>Hashtags:</strong> {{ user_obj.hashtags }}</p>
+            <p><strong>About:</strong> {{ user_obj.about }}</p>
+            <a href="{% url 'module_users:profile_edit' %}" class="btn btn-primary mt-2">Edit Profile</a>
+        </div>
+    </div>
+</div>
+{% endblock %} 

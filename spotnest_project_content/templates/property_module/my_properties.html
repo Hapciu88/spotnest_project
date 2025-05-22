@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+<div class="container mt-4">
+    <h2>My Properties</h2>
+    {% if properties %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Rental Price</th>
+                    <th>Address</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for property in properties %}
+                <tr>
+                    <td><a href="{% url 'module_property:property_detail' property.id %}">{{ property.title }}</a></td>
+                    <td>${{ property.rental_price }}</td>
+                    <td>{{ property.address }}</td>
+                    <td>{{ property.created_at|date:"M d, Y H:i" }}</td>
+                    <td>
+                        <a href="{% url 'module_property:edit_property' property.id %}" class="btn btn-sm btn-info">Edit</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>You have not listed any properties yet.</p>
+    {% endif %}
+</div>
+{% endblock %} 

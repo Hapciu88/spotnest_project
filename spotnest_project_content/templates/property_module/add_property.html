@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    {% load crispy_forms_tags %}
+
+<div class="container mt-4">
+    <h2>{% if edit_mode %}Edit Property{% else %}Add New Property{% endif %}</h2>
+    <form method="post" enctype="multipart/form-data" class="row g-3">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="col-12 mb-3">
+            <label class="form-label">Pick Location on Map</label>
+            <div id="map" style="height: 350px;"></div>
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">{% if edit_mode %}Update Property{% else %}Add Property{% endif %}</button>
+        </div>
+    </form>
+    <p class="text-muted mt-2">You can upload a main image for your property.</p>
+</div>
+
+<!-- Leaflet CSS & JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var latInput = document.getElementById('id_latitude');
+    var lngInput = document.getElementById('id_longitude');
+    var lat = parseFloat(latInput.value) || 0;
+    var lng = parseFloat(lngInput.value) || 0;
+    var map = L.map('map').setView([lat, lng], lat && lng ? 14 : 2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+    var marker = L.marker([lat, lng], {draggable: true}).addTo(map);
+
+    function updateInputs(e) {
+        var pos = e.latlng || marker.getLatLng();
+        latInput.value = pos.lat.toFixed(6);
+        lngInput.value = pos.lng.toFixed(6);
+    }
+    marker.on('dragend', updateInputs);
+    map.on('click', function(e) {
+        marker.setLatLng(e.latlng);
+        updateInputs(e);
+    });
+    latInput.addEventListener('change', function() {
+        var newLat = parseFloat(latInput.value) || 0;
+        var newLng = parseFloat(lngInput.value) || 0;
+        marker.setLatLng([newLat, newLng]);
+        map.setView([newLat, newLng], 14);
+    });
+    lngInput.addEventListener('change', function() {
+        var newLat = parseFloat(latInput.value) || 0;
+        var newLng = parseFloat(lngInput.value) || 0;
+        marker.setLatLng([newLat, newLng]);
+        map.setView([newLat, newLng], 14);
+    });
+});
+</script>
+{% endblock %} 

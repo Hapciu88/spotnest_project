@@ -1,0 +1,31 @@
+🔐 Django Security in a Nutshell
+
+XSS Protection – Auto-escapes HTML in templates to prevent script injection.
+
+CSRF Protection – Built-in tokens in forms block cross-site request forgery.
+
+SQL Injection Protection – ORM uses parameterized queries to block injections.
+
+Clickjacking Protection – Blocks embedding via X-Frame-Options.
+
+Secure Passwords – Passwords are hashed with PBKDF2 (or stronger options).
+
+HTTPS & Secure Cookies – Enforce HTTPS, secure cookies, and HSTS headers.
+
+Session Security – Signed and secure session handling.
+
+Auth & Permissions – Full user auth system with permissions & groups.
+
+Host Header Validation – ALLOWED_HOSTS guards against spoofed headers.
+
+CSP Support – Optional django-csp for defining safe content sources.
+
+Safe File Uploads – Prevents executable file risks.
+
+Security Headers – Middleware for HSTS, no-sniff, and frame blocking.
+
+Admin Protection – Secured with CSRF, strong auth, and optional 2FA.
+
+Rate Limiting – Add-ons like django-axes prevent brute force attacks.
+
+Security Checklist – Use python manage.py check --deploy before go-live.

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Hero Section -->
+    <style>
+  .animate-fade-in {
+    opacity: 0;
+    animation: fadeIn ease 1s forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<section class="position-relative text-white" style="min-height: 100vh; background: url({% static 'assets/img/bg26.jpg' %}) center center / cover no-repeat;">
+  <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0, 0, 0, 0.5);"></div>
+
+  <div class="container h-100 d-flex flex-column justify-content-center align-items-center text-center position-relative z-1">
+    <h1 class="display-3 fw-bold mb-3 animate-fade-in mt-5">Welcome to SpotNest</h1>
+    <p class="lead mb-4 animate-fade-in" style="max-width: 600px;">
+      Find, list, or manage properties effortlessly. SpotNest brings landlords and tenants together with ease and efficiency.
+    </p>
+    <div class="d-flex gap-3 flex-wrap justify-content-center animate-fade-in">
+      <a href="{% url 'module_property:property_map' %}" class="btn btn-primary btn-lg px-4">Explore Properties</a>
+      <a href="{% url 'module_users:signup' %}" class="btn btn-outline-light btn-lg px-4">Get Started</a>
+    </div>
+  </div>
+</section>
+
+<!-- Optional: add more sections below like Features, Testimonials, etc. -->
+
+{% endblock %}
